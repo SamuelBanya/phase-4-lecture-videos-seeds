@@ -1,0 +1,50 @@
+* Notes
+<2022-10-19 Wed 18:53>: We can use the concept of using 'seeds' to seed data to our database using Rails.
+
+I made the following modifications to the 'app/db/seeds.rb' file:
+#+begin_src ruby
+# This file should contain all the record creation needed to seed the database with its default values.
+# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
+#
+# Examples:
+#
+#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
+#   Character.create(name: "Luke", movie: movies.first)
+
+# NOTE: This is the first way we used .create() to create individual 'seed' data:
+# Pet.create(name: "Timmy", breed: "Siamese")
+# Pet.create(name: "King", breed: "Tabby")
+# Pet.create(name: "Lucy", breed: "Siberian")
+
+# Another way to use .create() in a 'seeds' file is to provide an array of hashes to the .create() method itself
+# with corresponding symbol values:
+Pet.create([{name: "Timmy", breed: "Siamese"},
+    {name: "King", breed: "Tabby"},
+    {name: "Lucy", breed: "Siberian"}
+])
+#+end_src
+
+I then ran the 'rake db:seed' to run the seeding process:
+#+begin_src bash
+samuelbanya@Samuels-MBP ~/hub/Development/code/phase-4/phase-4-lecture-videos-seeds/pet-shop $ rake db:seed
+
+The dependency tzinfo-data (>= 0) will be unused by any of the platforms Bundler is installing for. Bundler is installing for ruby but the dependency is only for x86-mingw32, x86-mswin32, x64-mingw32, java. To add those platforms to the bundle, run `bundle lock --add-platform x86-mingw32 x86-mswin32 x64-mingw32 java`.
+#+end_src
+
+I then confirmed this by using the 'rails console' command accordingly followed by using '.all()' method on the 'Pet' class itself, as well as '.all.length()'
+
+NOTE: The alias for 'rails console' is also 'rails c':
+#+begin_src bash
+samuelbanya@Samuels-MBP ~/hub/Development/code/phase-4/phase-4-lecture-videos-seeds/pet-shop $ rails console
+The dependency tzinfo-data (>= 0) will be unused by any of the platforms Bundler is installing for. Bundler is installing for ruby but the dependency is only for x86-mingw32, x86-mswin32, x64-mingw32, java. To add those platforms to the bundle, run `bundle lock --add-platform x86-mingw32 x86-mswin32 x64-mingw32 java`.
+Loading development environment (Rails 7.0.4)
+2.7.0 :001 > Pet.all
+  Pet Load (0.1ms)  SELECT "pets".* FROM "pets"
+ =>
+[#<Pet:0x00007fd214f44f78 id: 1, name: "Timmy", breed: "Siamese", created_at: Thu, 20 Oct 2022 00:12:01.957337000 UTC +00:00, updated_at: Thu, 20 Oct 2022 00:12:01.957337000 UTC +00:00>,
+ #<Pet:0x00007fd2198348f0 id: 2, name: "King", breed: "Tabby", created_at: Thu, 20 Oct 2022 00:12:01.964495000 UTC +00:00, updated_at: Thu, 20 Oct 2022 00:12:01.964495000 UTC +00:00>,
+ #<Pet:0x00007fd219834828 id: 3, name: "Lucy", breed: "Siberian", created_at: Thu, 20 Oct 2022 00:12:01.969953000 UTC +00:00, updated_at: Thu, 20 Oct 2022 00:12:01.969953000 UTC +00:00>]
+2.7.0 :002 > Pet.all.length
+  Pet Load (0.1ms)  SELECT "pets".* FROM "pets"
+ => 3
+#+end_src
